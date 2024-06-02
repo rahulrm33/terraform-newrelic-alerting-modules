@@ -4,12 +4,6 @@ variable "alert_policy_name" {
     type = string
     default = null
 }
-
-variable "app_names" {
-  description = "List of application names for NRQL queries"
-  type        = list(string)
-}
-
 variable "account_id" {
     description = "Our New Relic Account Id"
     type = number
