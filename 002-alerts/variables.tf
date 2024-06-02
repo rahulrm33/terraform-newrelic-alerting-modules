@@ -20,6 +20,19 @@ variable "nr_region" {
     default = "US"
 }
 
+variable "app_names" {
+  description = "List of application names for NRQL queries"
+  type        = list(string)
+}
+
+
+variable "nrql_base_query" {
+  description = "Base NRQL query template"
+  type        = string
+  default     = "SELECT filter(average(newrelic.timeslice.value), WHERE metricTimesliceName = 'HttpDispatcher') OR 0 FROM Metric WHERE metricTimesliceName IN ('HttpDispatcher', 'Agent/MetricsReported/count') FACET appId"
+}
+
+
 # Alert policy and notification channel variables
 variable "alert_policy_name" {
     description = "name of the alert policy"

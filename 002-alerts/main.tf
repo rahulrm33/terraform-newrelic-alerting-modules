@@ -6,13 +6,39 @@
 #   infra_conditions  = var.infra_conditions
 # }
 
+# module "alerts" {
+#   source = "../modules/alerts"
+#   alert_policy_name = var.alert_policy_name
+#   account_id = var.account_id
+#   nrql_conditions = var.nrql_conditions
+#   infra_conditions = var.infra_conditions
+# }
+
+locals {
+  app_names_string = join("', '", var.app_names)
+  nrql_query = replace(var.nrql_base_query, "WHERE ", "WHERE appName IN ('${local.app_names_string}') AND ")
+}
+
 module "alerts" {
   source = "../modules/alerts"
   alert_policy_name = var.alert_policy_name
   account_id = var.account_id
   nrql_conditions = var.nrql_conditions
   infra_conditions = var.infra_conditions
+  app_names = var.app_names  # Pass the app_names variable
 }
+
+
+
+# module "alerts" {
+#   source = "../modules/alerts"
+#   alert_policy_name = var.alert_policy_name
+#   account_id = var.account_id
+#   nrql_conditions = var.nrql_conditions
+#   infra_conditions = var.infra_conditions
+#   app_names = var.app_names
+# }
+
 
 # data "newrelic_alert_policy" "example_policy" {
 #   name = "my-alert-policy"
